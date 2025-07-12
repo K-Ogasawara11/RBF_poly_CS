@@ -311,5 +311,116 @@ def ca2cs_sp(u,v,lat,lon):
     v1=(u*sin(lat)*sin(lon)+v*cos(lon))/sin(lat)**2*a
     return u1,v1
 
+def ca2cs_eq_eig(u,v,lat,lon,P,n):
+    ea=1
+    a=ea/np.sqrt(3)
+    if P==2:
+        clon=lon-pi/2
+    elif P==3:
+        clon=lon.copy()
+        for i in range(lon.shape[0]):
+            for j in range(n):
+                if lon[i,j]<0:
+                    clon[i,j]=lon[i,j]+pi*2
+        clon-=pi    
+    elif P==4:
+        clon=lon+pi/2
+    else:
+        clon=lon
+   
+    u1=a*(u/(cos(lat)*cos(clon)**2))
+    v1=a*(u*tan(clon)*tan(lat)+v/cos(lat))/(cos(lat)*cos(clon))
+
+    return u1,v1
+
+def metric_eq_flux(Dx,Dy,index,idim1,u,v,lat,lon,n,P):
+    ub=np.zeros((idim1.size,n))
+    latb=np.zeros((idim1.size,n))
+    lonb=np.zeros((idim1.size,n))
+    vb=np.zeros((idim1.size,n))
+    for i in range(idim1.size):
+        for j in range(n):
+            ind=int(index[i,j])
+            ub[i,j]=u[ind]
+            vb[i,j]=v[ind]
+            latb[i,j]=lat[ind]
+            lonb[i,j]=lon[ind]
+    u1,v1=ca2cs_eq_eig(ub,vb,latb,lonb,P,n)
+    a=1/np.sqrt(3)
+    g1=calc_jacob(lonb,latb,P,n)
+    Dx=Dx*g1*u1/a**2
+    Dy=Dy*g1*v1/a**2
+    return Dx,Dy
+
+
+def metric_np_flux(Dx,Dy,index,idim1,u,v,lat,lon,n):
+    P=5
+    a=1/np.sqrt(3)
+    ub=np.zeros((idim1.size,n))
+    latb=np.zeros((idim1.size,n))
+    lonb=np.zeros((idim1.size,n))
+    vb=np.zeros((idim1.size,n))
+    ga=np.ones((idim1.size,n))
+    for i in range(idim1.size):
+        for j in range(n):
+            ind=int(index[i,j])
+            ub[i,j]=u[ind]
+            vb[i,j]=v[ind]
+            latb[i,j]=lat[ind]
+            lonb[i,j]=lon[ind]
+    ga=calc_jacob(lonb,latb,P,n)
+    u1,v1=ca2cs_np(ub,vb,latb,lonb)
+  
+    Dx=ga*u1*Dx/a**2
+    Dy=ga*v1*Dy/a**2
+    return Dx,Dy
+
+def metric_sp_flux(Dx,Dy,index,idim1,u,v,lat,lon,n):
+    P=6
+    a=1/np.sqrt(3)
+    ub=np.zeros((idim1.size,n))
+    latb=np.zeros((idim1.size,n))
+    lonb=np.zeros((idim1.size,n))
+    vb=np.zeros((idim1.size,n))
+    ga=np.ones((idim1.size,n))
+    for i in range(idim1.size):
+        for j in range(n):
+            ind=int(index[i,j])
+            ub[i,j]=u[ind]
+            vb[i,j]=v[ind]
+            latb[i,j]=lat[ind]
+            lonb[i,j]=lon[ind]
+    ga=calc_jacob(lonb,latb,P,n)
+    u1,v1=ca2cs_sp(ub,vb,latb,lonb)
+ 
+    Dx=ga*u1*Dx/a**2
+    Dy=ga*v1*Dy/a**2
+    return Dx,Dy
+
+def calc_jacob(lon,lat,pn,n):
+    a=1/np.sqrt(3)
+    if pn==1:
+        ga=cos(lon)**3*cos(lat)**3
+    elif pn==2:
+        clon=lon-pi/2
+        ga=cos(clon)**3*cos(lat)**3
+    elif pn==3:
+        clon=lon.copy()
+        for i in range(lon.shape[0]):
+            for j in range(n):
+                if clon[i,j]<0:
+                    clon[i,j]=lon[i,j]+pi*2
+        clon-=pi
+        ga=cos(clon)**3*cos(lat)**3
+    elif pn==4:
+        clon=lon+pi/2
+        ga=cos(clon)**3*cos(lat)**3
+    elif pn==5:
+        clat=lat.copy()
+        ga=sin(lat)**3
+    elif pn==6:
+        clat=lat.copy()
+        ga=sin(lat)**3
+    return ga
 if __name__ == '__main__':
     print('work')
