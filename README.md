@@ -10,7 +10,7 @@ ver1. 2025/02/10
 5. Troubleshooting
 
 # 1. Introduction 
-　This repository consists of the spherical advection and shallow water equation models using the combination of the cubed sphere projection method and Radial Basis Function (RBF) generated Finite Difference (RBF-FD) method (Ogasawara and Enomoto 2025: OE25). It can perform standard experiments (Williamson et al. 1992) cases 1, 2, and 6. Note that discrepancies in errors between Fortran and Python implementations may arise due to different optimization options.  
+　This repository consists of the spherical advection and shallow water equation models using the combination of the cubed sphere projection method and Radial Basis Function (RBF) generated Finite Difference (RBF-FD) method (Ogasawara and Enomoto submitted). It can perform standard experiments (Williamson et al. 1992) cases 1, 2, and 6. Note that discrepancies in errors between Fortran and Python implementations may arise due to different optimization options.  
 
 
 # 2. Required software  
@@ -53,7 +53,7 @@ For readability, vectors containing node data outside the domain are used in the
   This project is licensed under the MIT License, see the license.txt file for details.
 
 # References  
-- K. Ogasawara and T. Enomoto, 2025: Application of cubed sphere projection to a meshless shallow water equation model. J. Comput. Phys., submited.  
+- K. Ogasawara and T. Enomoto: Application of cubed sphere projection to a meshless shallow water equation model. J. Comput. Phys., submited.  
 - Jonah A. Reeger and Bengt Fornberg, 2015: Numerical Quadrature over the Surface of a Sphere. Stud. Appl. Math. 137, 174–188. 
 - R.S. Womersley, I.H. Sloan, Interpolation and cubature on the sphere [website], http://web.maths.unsw.edu.au/ rsw/Sphere/ , 2003.   
 - Williamson et al. 1992: A Standard Test Set for Numerical Approximations to the Shallow Water Equations in Spherical Geometry,  J. Comput. Phys.,  102, 211-224.  
