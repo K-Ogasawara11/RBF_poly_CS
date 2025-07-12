@@ -1,6 +1,6 @@
 # SWM using the combination of PHS + Poly and the cubed sphere projection  
 Author Koji Ogasawara   
-ver1. 2025/02/10   
+ver1. 2025/07/10   
 
 ## Index
 1. Introduction
