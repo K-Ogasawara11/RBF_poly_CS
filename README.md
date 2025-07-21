@@ -27,7 +27,7 @@ ver1. 2025/07/10
 
 
 # 4.How to perform experiments
-The parameter settings are described in OE25.  
+The parameter settings are described in Ogasawara and Enomoto 2025 submitted.  
 
 ### Nodes  
 　This repository assumes the use of Maximum Determinant (MD) nodes and icosahedral (icos) grids. If using MD nodes, you need to download the data published on the following website: https://web.maths.unsw.edu.au/~rsw/Sphere/MaxDet/.  The downloaded node data must be rearranged using node_ordering.py, which generates knn_md_N*.txt files. Icosahedral grids, created using spherepts (https://github.com/gradywright/spherepts/), are stored in the nodes directory. The qubarue weights of MD are stored in the downloaded data. For icos grids, the weights were created by Reger and Fornberg (2016) (https://jp.mathworks.com/matlabcentral/fileexchange/51214-spherical_quadrature_rbf-quadrature_nodes) and stored in nodes directory.
